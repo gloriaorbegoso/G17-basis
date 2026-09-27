@@ -372,6 +372,13 @@ footer{grid-area: pie;}
     grid-column: 1/-1;
 }
 
+#categorias ul{
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
 @media(min-width: 48em) {
     header {
         flex-direction: row;
