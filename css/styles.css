@@ -356,9 +356,7 @@ figure{
     margin-top: 16px;
 }
 footer {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
+    display: grid;
     gap: 16px;
     margin-top: 2rem;
     padding: 1.5rem 0;
@@ -454,14 +452,18 @@ footer{grid-area: pie;}
     .envio {
         grid-template-columns: 1fr 1fr;
     }
+    footer {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 @media(min-width : 64em) {
     body {
-        grid-template-columns: 300px minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1fr) 300px;
         grid-template-areas: 
         "cabecera cabecera"
         "promo promo"
-        "lateral contenido"
+        "contenido lateral"
         "pie pie";
         grid-template-rows: auto 1fr auto;
     }
