@@ -39,7 +39,6 @@ header{
     background-color: var(--tarjeta);
     padding: 1rem 1.25rem;
     border-radius: 12px;
-    margin-bottom: 1.5rem;
     gap: 16px;
 }
 /* id ? no, clase ? no, selector -> Si, tenemos header-h1 */
@@ -141,6 +140,7 @@ body {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas: 
         "cabecera"
+        "promo"
         "lateral"
         "contenido"
         "pie";
@@ -406,6 +406,14 @@ footer div{
     gap: 24px 16px;
     grid-auto-flow: dense;
 }
+
+.promo {
+    grid-area: promo;
+    background-color: var(--fondo-suave);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    padding: 0.75rem;
+}
 header{grid-area: cabecera;}
 main{grid-area: contenido;}
 aside{grid-area: lateral; align-self: start;}
@@ -452,6 +460,7 @@ footer{grid-area: pie;}
         grid-template-columns: 300px minmax(0, 1fr);
         grid-template-areas: 
         "cabecera cabecera"
+        "promo promo"
         "lateral contenido"
         "pie pie";
         grid-template-rows: auto 1fr auto;
