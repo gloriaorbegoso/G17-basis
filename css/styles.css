@@ -358,7 +358,7 @@ figure{
 footer {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-start;
     gap: 16px;
     margin-top: 2rem;
     padding: 1.5rem 0;
@@ -375,6 +375,9 @@ footer address{
     order: -1;
     margin-right: auto;
     font-style: normal;
+}
+footer div{
+    flex: 1 1 200px;
 }
 
 #categorias ul{
