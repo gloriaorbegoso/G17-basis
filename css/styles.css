@@ -347,6 +347,26 @@ footer address{
     margin-right: auto;
     font-style: normal;
 }
+
+#categorias ul{
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.fila{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0.75rem 0;
+    gap: 16px;
+}
+
+.fila p{
+    margin: 0;
+    flex: 1;
+}
+
 .productos{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
@@ -370,13 +390,6 @@ footer{grid-area: pie;}
 }
 .campo-ancho { 
     grid-column: 1/-1;
-}
-
-#categorias ul{
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    flex-wrap: wrap;
 }
 
 @media(min-width: 48em) {
