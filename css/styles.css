@@ -178,6 +178,11 @@ article{
     border: 1px solid var(--borde);
     border-radius: 12px;
     padding: 1rem;
+    transition: transform 2s ease, box-shadow 2s ease;
+}
+article:hover{
+    transform: translateY(-15px);
+    box-shadow: 0 8px 20px rgb(0, 0, 0, 0.20);
 }
 article img {
     height: auto;
@@ -329,6 +334,11 @@ button:active{
     border-radius: 999px;
     padding: 0.15rem 0.6rem;
     margin-bottom: 0.5rem;
+    animation: latido 2s ease-in-out infinite alternate;
+}
+@keyframes latido{
+    from { transform: scale(1);}
+    to { transform: scale(1.4);}
 }
 a[target="_blank"]::after{
     content: " ->";
@@ -405,6 +415,15 @@ footer div{
     grid-auto-flow: dense;
 }
 
+.productos article {
+    animation: aparecer 2s ease-out backwards;
+}
+
+@keyframes aparecer {
+    from {opacity: 0; transform: translateY(12px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
 .promo {
     grid-area: promo;
     background-color: var(--fondo-suave);
@@ -430,7 +449,25 @@ footer{grid-area: pie;}
 .campo-ancho { 
     grid-column: 1/-1;
 }
-
+.beneficios{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(150px,100%),1fr));
+    gap: var(--espacio);
+    margin-bottom: 24px;
+}
+.beneficios p{
+    margin: 0;
+    color: var(--texto-suave);
+    font-size: 0.85rem;
+}
+.beneficios .icono{
+    font-size: 1.75rem;
+    margin: 0 0 0.25rem;
+}
+.beneficios h3{
+    margin: 0 0 0.25rem;
+    font-size: 1rem;
+}
 @media(min-width: 48em) {
     header {
         flex-direction: row;
@@ -488,4 +525,10 @@ footer{grid-area: pie;}
     body {
         max-width: 1280px;
     }
+}
+@media (prefers-reduced-motion: reduce) {
+    .productos article,
+    .destacado::before {animation: none}
+    article,
+    button {transition: none;}
 }
