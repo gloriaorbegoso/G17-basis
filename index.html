@@ -1,13 +1,14 @@
 <!DOCTYPE html> <!--html v5-->
-<html lang="es">
+<html lang="es" class="dark"> <!--con esto se demuestra-->
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>TechCart - Tienda electrónica</title>
 
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
     <link rel="stylesheet" href="./css/styles.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style type="text/tailwindcss">
         @theme{
             --color-marca:        #0066cc;
@@ -21,6 +22,7 @@
             --color-texto:        #1d1d1f;
             --color-texto-suave:  #6e6e73;
             --color-borde:        #d2d2d7;
+            --color-oferta:       #e67e22;
 
             --radius-tarjeta: 12px;
 
@@ -37,20 +39,27 @@
             --container-ancha:  1280px;
         }
 
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --color-marca:        #3d9bff;
-                --color-sobre-marca:  #0b1220;
-                --color-exito:        #30d158;
-                --color-error:        #ff6b5e;
-                --color-fondo:        #111114;
-                --color-fondo-suave:  #2c2c2e;
-                --color-tarjeta:      #1d1d1f;
-                --color-resalte:      #0e2439;
-                --color-texto:        #f5f5f7;
-                --color-texto-suave:  #a1a1a6;
-                --color-borde:        #3a3a3c;
-            }
+        @variant dark (&:where(.dark, .dark *));
+
+        @keyframes aparecer {
+            from {opacity: 0; transform: translateY(20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        
+        :root.dark {
+            --color-marca:        #3d9bff;
+            --color-sobre-marca:  #0b1220;
+            --color-exito:        #30d158;
+            --color-error:        #ff6b5e;
+            --color-fondo:        #111114;
+            --color-fondo-suave:  #2c2c2e;
+            --color-tarjeta:      #1d1d1f;
+            --color-resalte:      #0e2439;
+            --color-texto:        #f5f5f7;
+            --color-texto-suave:  #a1a1a6;
+            --color-borde:        #3a3a3c;
+            --color-oferta:       #f39c12;
         }
 
         @layer components {
@@ -69,6 +78,10 @@
 
             .titulo-seccion {
                 @apply text-seccion leading-tight after:content-[''] after:block after:w-12 after:h-[3px] after:bg-marca after:mt-1;
+            }
+
+            .celda {
+                @apply border border-borde px-2 py-1.5;
             }
         }
     </style>
@@ -110,6 +123,11 @@
                 <h3 class="text-base leading-tight mb-1">Pago seguro</h3>
                 <p class="text-sm text-texto-suave">Tarjeta, PayPal o contra entrega.</p>
             </article>
+            <article class="tarjeta text-center">
+                <p class="text-3xl mb-1" aria-hidden="true">🔄</p>
+                <h3 class="text-base leading-tight mb-1">Devolución gratis</h3>
+                <p class="text-sm text-texto-suave">15 días para cambios sin costo adicional.</p>
+            </article>
         </section>
         <section id="catalogo">
             <h2 class="titulo-seccion">Catalogo de productos</h2>
@@ -126,7 +144,7 @@
                 <article class="tarjeta group flex flex-col text-center
                         transition-[transform,box-shadow] duration-200
                         hover:-translate-y-1 hover:shadow-lg dark:hover:ring-1 dark:hover:ring-marca
-                        animate-aparecer
+                        animate-aparecer [animation-delay:100ms]
                         motion-reduce:transition-none motion-reduce:animate-none">
                     <figure class="mb-3">
                         <img class="aspect-square object-contain dark:brightness-90" src="https://cdn.dummyjson.com/product-images/smartphones/iphone-13-pro/thumbnail.webp" alt="iPhone 13 Pro" width="200"/>
@@ -137,9 +155,10 @@
                     <button class="boton self-center mt-auto" type="button">Agregar al carrito</button>
                 </article>
                 <article class="tarjeta group flex flex-col text-center
+                        before:content-['Oferta'] before:bg-oferta before:text-white before:text-xs before:font-bold before:py-1 before:rounded-full
                         transition-[transform,box-shadow] duration-200
                         hover:-translate-y-1 hover:shadow-lg dark:hover:ring-1 dark:hover:ring-marca
-                        animate-aparecer
+                        animate-aparecer [animation-delay:200ms]
                         motion-reduce:transition-none motion-reduce:animate-none">
                     <figure class="mb-3">
                         <img class="aspect-square object-contain dark:brightness-90" src="https://cdn.dummyjson.com/product-images/tablets/ipad-mini-2021-starlight/thumbnail.webp" alt="iPad Mini 2021" width="200"/>
@@ -152,7 +171,7 @@
                 <article class="tarjeta group flex flex-col text-center
                         transition-[transform,box-shadow] duration-200
                         hover:-translate-y-1 hover:shadow-lg dark:hover:ring-1 dark:hover:ring-marca
-                        animate-aparecer
+                        animate-aparecer [animation-delay:300ms]
                         motion-reduce:transition-none motion-reduce:animate-none">
                     <figure class="mb-3">
                         <img class="aspect-square object-contain dark:brightness-90" src="https://cdn.dummyjson.com/product-images/mobile-accessories/apple-airpods-max-silver/thumbnail.webp" alt="AirPods Max plateados" width="200"/>
@@ -162,7 +181,7 @@
                     <p class="mb-3"><strong class="text-exito">$549.99</strong></p>
                     <button class="boton self-center mt-auto" type="button">Agregar al carrito</button>
                 </article>
-            <div>
+            </div>
         </section>
         <section id="compra" class="bg-tarjeta rounded-tarjeta p-6 mt-6">
             <h2 class="titulo-seccion">Finalizar compra</h2>
@@ -265,28 +284,29 @@
             <h3 class="text-lg leading-tight mt-4">Costos de envío</h3>
             <table class="w-full border-collapse text-sm">
                 <caption class="font-semibold text-left mb-2">Tarifas por zona</caption>
+                <!-- Considero usar @apply ya que en el caso de que existan mas registros estar añadiendo por cada celda seria tedioso, si se requiere algun cambio dentro del @apply sería mas factible -->
                 <thead>
                     <tr>
-                        <th class="border border-borde px-2 py-1.5 text-left bg-fondo-suave">Zona</th>
-                        <th class="border border-borde px-2 py-1.5 text-left bg-fondo-suave">Tiempo</th>
-                        <th class="border border-borde px-2 py-1.5 text-left bg-fondo-suave">Costo</th>
+                        <th class="celda text-left bg-fondo-suave">Zona</th>
+                        <th class="celda text-left bg-fondo-suave">Tiempo</th>
+                        <th class="celda text-left bg-fondo-suave">Costo</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="even:bg-fondo hover:bg-resalte">
-                        <td class="border border-borde px-2 py-1.5">Lima</td>
-                        <td class="border border-borde px-2 py-1.5">24 horas</td>
-                        <td class="border border-borde px-2 py-1.5">Gratis</td>
+                        <td class="celda">Lima</td>
+                        <td class="celda">24 horas</td>
+                        <td class="celda">Gratis</td>
                     </tr>
                     <tr class="even:bg-fondo hover:bg-resalte">
-                        <td class="border border-borde px-2 py-1.5">Resto del Perú</td>
-                        <td class="border border-borde px-2 py-1.5">3 a 5 días</td>
-                        <td class="border border-borde px-2 py-1.5">$9.90</td>
+                        <td class="celda">Resto del Perú</td>
+                        <td class="celda">3 a 5 días</td>
+                        <td class="celda">$9.90</td>
                     </tr>
                     <tr class="even:bg-fondo hover:bg-resalte">
-                        <td class="border border-borde px-2 py-1.5">Internacional</td>
-                        <td class="border border-borde px-2 py-1.5">7 a 15 días</td>
-                        <td class="border border-borde px-2 py-1.5">$29.90</td>
+                        <td class="celda">Internacional</td>
+                        <td class="celda">7 a 15 días</td>
+                        <td class="celda">$29.90</td>
                     </tr>
                 </tbody>
             </table>
