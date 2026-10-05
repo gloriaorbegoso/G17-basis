@@ -230,3 +230,41 @@ if(!pedido) {
 }
 
 console.log("Fin del recorrido clase 07/08");
+
+productos.push(
+    {id: 7, nombre: "Asus ZenBook 14", precio: 899.99, categoria: "laptops", stock: 10, destacado: false}
+);
+
+console.log("Productos:", productos.length);
+
+console.table(productos);
+
+const NuevoValorDelCatalogo = productos.reduce((suma, p) => suma + p.precio, 0);
+console.log(NuevoValorDelCatalogo.toFixed(2));
+
+
+const catalogoPresentable = productos.map(p => ({nombre: p.nombre,categoria: p.categoria,precio: formatearPrecio(p.precio)}));
+console.table(catalogoPresentable);
+
+const catalogoConStock = productos.filter(p => p.stock > 0).map(p => ({nombre: p.nombre,categoria: p.categoria,precio: formatearPrecio(p.precio)}));
+console.table(catalogoConStock);
+
+const cuantosHayDe = (categoria) => productos.filter(p => p.categoria === categoria).length;
+
+console.log("laptops:", cuantosHayDe("laptops"));
+console.log("televisores:", cuantosHayDe("televisores"));
+
+function resumenCarrito(items) {
+    const cantidad = items.length;
+    const total = items.reduce((suma, p) => suma + p.precio, 0);
+    const envio = total > ENVIO_GRATIS_DESDE ? 0 : 9.99;
+
+    return {cantidad: cantidad,total: total,envio: envio};
+}
+
+const miCarrito = [productos[2], productos[3]];
+console.log(resumenCarrito(miCarrito));
+
+const masBarato = productos.filter(p => p.stock > 0).sort((a, b) => a.precio - b.precio)[0];
+
+console.log("Más barato:", masBarato.nombre);
