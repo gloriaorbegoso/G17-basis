@@ -1,6 +1,7 @@
 import {categorias, contarPorCategoria, productos} from "./datos.js";
 import formatearPrecio, {MONEDA} from "./formato.js";
-import {IGV, ENVIO_GRATIS_DESDE, precioConIgv, tarifaPorZona, agregarProducto, sumar, actualizarPrecio, conDescuento, costoDeEnvio, resumenTienda} from "./tienda.js";
+import {IGV, ENVIO_GRATIS_DESDE, precioConIgv, agregarProducto, sumar, actualizarPrecio, conDescuento, resumenTienda, agruparPorCategoria, aplicarDescuentoA} from "./tienda.js";
+import {tarifaPorZona,costoDeEnvio} from "./envio.js";
 
 console.log("TechCart: Modulos cargados");
 const macbook = productos[0];
@@ -170,4 +171,52 @@ for(const {nombre, stock} of productos) {
         console.warn(`Sin stock : ${nombre}`);
     }
 }
+
+const conAsusZenBook = agregarProducto(productos, {
+    id: 8,
+    nombre: "Asus ZenBook 14",
+    precio: 899.99,
+    categoria : "laptops",
+    stock : 10,
+    destacado: false,
+    envio: {
+        zona : "Lima",
+        dias : 1
+    }
+});
+
+console.log(conAsusZenBook.length, productos.length);
+
+const fichaAsus = `
+    Producto: ${conAsusZenBook[6].nombre}
+    Categoría: ${conAsusZenBook[6].categoria}
+    Precio: ${formatearPrecio(conAsusZenBook[6].precio)}
+    Con IGV : ${formatearPrecio(precioConIgv(conAsusZenBook[6].precio))}
+    Stock: ${conAsusZenBook[6].stock} unidades
+`;
+
+console.log(fichaAsus);
+
+const fichaCorta = ({nombre,precio,stock,envio: { zona, dias }}) => `
+    ${nombre} - ${formatearPrecio(precio)}
+    Stock: ${stock} unidades
+    Envío: ${zona}, ${dias} día(s)
+`;
+
+console.log(productos.map(fichaCorta));
+
+const productosPorCategoria = agruparPorCategoria(productos);
+
+console.log(productosPorCategoria);
+console.log(productosPorCategoria.laptops);
+console.log(productosPorCategoria.audio);
+
+
+const productosRebajados = aplicarDescuentoA(productos, "laptops", 10);
+
+console.log("Original:", productos);
+console.log("Con descuento:", productosRebajados);
+console.log(productosRebajados !== productos);
+console.log(productosRebajados[0] === productos[0]);
+console.log(productosRebajados[1] === productos[1]);
 
