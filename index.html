@@ -1,6 +1,5 @@
 <!DOCTYPE html> <!--html v5-->
-<html lang="es" class="dark"> <!--con esto se demuestra-->
-<head>
+<html lang="es">
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>TechCart - Tienda electrónica</title>
@@ -107,6 +106,9 @@
             </ul>
         </nav>
         <p id="resumen-carrito" class="font-semibold m-0" role="status" aria-live="polite"></p>
+        <button id="tema" type="button" class="boton">
+            Cambiar tema
+        </button>
     </header>
     <!-- CONTENIDO PRINCIPAL -->
     <main>
@@ -134,6 +136,23 @@
         </section>
         <section id="catalogo">
             <h2 class="titulo-seccion">Catalogo de productos</h2>
+            <div id="filtros-categoria" class="flex flex-wrap gap-2 my-4">
+                <button type="button" data-categoria="todas" class="boton">
+                    Todas
+                </button>
+                <button type="button" data-categoria="laptops" class="boton">
+                    Laptops
+                </button>
+                <button type="button" data-categoria="smartphones" class="boton">
+                    Smartphones
+                </button>
+                <button type="button" data-categoria="tablets" class="boton">
+                    Tablets
+                </button>
+                <button type="button" data-categoria="audio" class="boton">
+                    Audio
+                </button>
+            </div>
             <div id="catalogo-grid" class="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-y-6 gap-x-4 md:auto-rows-fr">
             </div>
         </section>

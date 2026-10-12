@@ -12,16 +12,79 @@ const mensajeEnvio = document.querySelector('#mensaje-envio');
 const botonVaciar = document.querySelector('#vaciar');
 const grillaCatalogo = document.querySelector("#catalogo-grid");
 
-const pintarCatalogo = (lista = productos) => {
-    const html = lista.map(tarjetaProducto).join("");
-    grillaCatalogo.innerHTML="";
-    grillaCatalogo.insertAdjacentHTML("beforeEnd", html);
-    grillaCatalogo.setAttribute("aria-label", `Catalogo con ${lista.length} productos`);
+const botonTema = document.querySelector("#tema");
+const CLAVE_TEMA = "techcart_tema";
+
+let tema = "light";
+
+try {
+    tema = localStorage.getItem(CLAVE_TEMA) || "light";
+} catch (error) {
+    console.warn("No se pudo leer el tema:", error.message);
 }
+document.documentElement.classList.toggle("dark", tema === "dark");
+
+botonTema.addEventListener("click", () => {
+    const esOscuro = document.documentElement.classList.toggle("dark");
+    tema = esOscuro ? "dark" : "light";
+
+    try {
+        localStorage.setItem(CLAVE_TEMA, tema);
+    } catch (error) {
+        console.warn("No se pudo guardar el tema:", error.message);
+    }
+});
+
+const pintarCatalogo = (lista = productos) => {
+    grillaCatalogo.innerHTML = "";
+
+    if (lista.length === 0) {
+        const aviso = document.createElement("p");
+        aviso.textContent = "No se encontraron productos.";
+        aviso.classList.add("text-texto-suave", "text-center", "py-4");
+        aviso.id = "aviso-sin-resultados";
+
+        grillaCatalogo.append(aviso);
+    } else {
+        const aviso = document.querySelector("#aviso-sin-resultados");
+        aviso?.remove();
+
+        const html = lista.map(tarjetaProducto).join("");
+        grillaCatalogo.insertAdjacentHTML("beforeEnd", html);
+    }
+
+    grillaCatalogo.setAttribute(
+        "aria-label",
+        `Catalogo con ${lista.length} productos`
+    );
+}
+
+const filtrosCategoria = document.querySelector("#filtros-categoria");
+
+filtrosCategoria.addEventListener("click", (evento) => {
+    const boton = evento.target.closest("button[data-categoria]");
+
+    if (!boton) return;
+
+    const categoria = boton.dataset.categoria;
+
+    if (categoria === "todas") {
+        pintarCatalogo();
+        return;
+    }
+
+    const filtrados = productos.filter(
+        producto => producto.categoria === categoria
+    );
+
+    pintarCatalogo(filtrados);
+});
+
 let carrito = leerCarrito();
 
 const pintarCarrito = () => {
     const {unidades, subTotal, igv, envio, total}= resumenCarrito(carrito);
+    document.title = `TechCart (${unidades})`;
     resumenCabecera.textContent = unidades === 0 ? "Carrito vacio" : `${unidades} producto(s) - ${formatearPrecio(total)}`;
     listaCarrito.innerHTML = carrito.map(filaCarrito).join("");
     totalCarrito.textContent = unidades === 0 ? "Todavia no agregaste nada." : 
@@ -48,7 +111,7 @@ grillaCatalogo.addEventListener('click', (evento) => {
 listaCarrito.addEventListener('click', (evento) => {
     const boton = evento.target.closest("button[data-accion='quitar']");
     if(!boton) return;
-    carrito = quitarDelCarrito(carrito, Number(boton.dataset.posicion));
+    carrito = quitarDelCarrito(carrito, Number(boton.dataset.id));
     guardarCarrito(carrito);
     pintarCarrito();
 });
@@ -99,3 +162,4 @@ formularioCompra.addEventListener("submit", (evento) => {
 })
 pintarCatalogo();
 pintarCarrito();
+//pintarCatalogo([]);

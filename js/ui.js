@@ -38,15 +38,26 @@ export const tarjetaProducto = ({destacado, id, imagen, alt, marca, nombre, prec
     </article>
 `;
 
-export const filaCarrito = ({nombre, precio}, indice) => `
-        <li class="flex flex-wrap items-center justify-between gap-2 border-b border-borde py-2">
-            <span>${nombre}</span>"
-            <span class="flex items-center gap-3">
-                <strong class="text-exito">${formatearPrecio(precio)}</strong>
-                <button class="boton text-sm" type="button" data-accion="quitar" 
-                        data-posicion="${indice}" aria-label="Quitar ${nombre} del carrito">
-                    Quitar
-                </button>
+export const filaCarrito = ({ id, nombre, precio, cantidad }) => `
+    <li class="flex flex-wrap items-center justify-between gap-2 border-b border-borde py-2">
+        <span>
+            ${nombre}
+            <span class="text-texto-suave text-sm">
+                (Cantidad: ${cantidad})
             </span>
-        </li>
+        </span>
+
+        <span class="flex items-center gap-3">
+            <strong class="text-exito">
+                ${formatearPrecio(precio * cantidad)}
+            </strong>
+
+            <button class="boton text-sm" type="button"
+                    data-accion="quitar"
+                    data-id="${id}"
+                    aria-label="Quitar ${nombre} del carrito">
+                Quitar
+            </button>
+        </span>
+    </li>
 `;
